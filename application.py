@@ -175,7 +175,20 @@ def pcatalog():
                                items=items, category_list=category_list)
 
 
-
+@app.route('/catalog/<int:category_id>/items', methods=['GET', 'POST'])
+def getItemsOfCategory(category_id):
+    items = session.query(Items).filter_by(cat_id=category_id).all()
+    category = session.query(Categories).filter_by(id=category_id).one()
+    name = category.name
+    # Count how many items in this specific category
+    count = 0
+    for item in items:
+        count += 1
+    if 'username' not in login_session:
+        return render_template('public_items.html', items=items, count=count,
+                               name=name)
+    return render_template('items.html', items=items, count=count,
+                           name=name)
 
 
 if __name__ == '__main__':
