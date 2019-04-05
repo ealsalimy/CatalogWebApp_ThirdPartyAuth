@@ -29,6 +29,17 @@ def gconnect():
         response = make_response(json.dumps('Invalid state parameter.'), 401)
         response.headers['Content-Type'] = 'application/json'
         return response
+    elif request.args.get('code', ''):
+        # Obtain authorization code
+        code = request.args.get('code', '')
+        # Exchange code for access token and ID token
+        URL = 'https://www.googleapis.com/oauth2/v4/token?'
+        URL += 'code=%s&' % code
+        URL += 'client_id=354270557828-caritkd8lfe68d1bsdevphcs6i1i30qd'
+        URL += '.apps.googleusercontent.com&'
+        URL += 'client_secret=0ikXfjJZaCyRbXGumch-gPR9&'
+        URL += 'redirect_uri=http://localhost:5000/google_connect&'
+        URL += 'grant_type=authorization_code'
 
 
 @app.route('/catalog', methods=['GET', 'POST'])
