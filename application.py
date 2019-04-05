@@ -17,9 +17,10 @@ engine = create_engine('sqlite:///ItemCatalog.db',
                        connect_args={'check_same_thread': False})
 Base.metadata.bind = engine
 
+app = Flask(__name__)
 DBSession = sessionmaker(bind=engine)
 session = DBSession()
-
+app.secret_key = os.urandom(32)
 
 
 
