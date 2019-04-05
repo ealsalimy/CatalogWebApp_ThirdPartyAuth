@@ -22,6 +22,14 @@ DBSession = sessionmaker(bind=engine)
 session = DBSession()
 app.secret_key = os.urandom(32)
 
+@app.route('/google_connect', methods=['GET', 'POST'])
+def gconnect():
+    # Validate state token
+    if request.args.get('state', '') != login_session['state']:
+        response = make_response(json.dumps('Invalid state parameter.'), 401)
+        response.headers['Content-Type'] = 'application/json'
+        return response
+
 
 @app.route('/catalog', methods=['GET', 'POST'])
 def catalog():
