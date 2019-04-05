@@ -88,6 +88,21 @@ def logout():
             json.dumps('Current user not connected.'), 401)
         response.headers['Content-Type'] = 'application/json'
         return response
+    url = 'https://accounts.google.com/o/oauth2/revoke?token=%s' % access_token
+    h = httplib2.Http()
+    result = h.request(url, 'GET')[0]
+    if result['status'] == '200':
+        flash('logged out, Come back again %s' % login_session['username'])
+        # Close user's session
+        login_session.pop('username', None)
+        return redirect(url_for('catalog'))
+    else:
+        response = make_response(json.dumps(
+                                 'Failed to revoke token for given user.',
+                                 400))
+        response.headers['Content-Type'] = 'application/json'
+        return response
+        
 
 @app.route('/catalog', methods=['GET', 'POST'])
 def catalog():
