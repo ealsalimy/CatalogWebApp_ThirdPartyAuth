@@ -155,6 +155,26 @@ def pcatalog():
         session.commit()
         flash("you are now logged in as %s, for the first time."
               % login_session['username'])
+    else:
+        flash("you are now logged in as %s, Welcome back!"
+              % login_session['username'])
+    categories = session.query(Categories).all()
+    items = session.query(Items).order_by(desc(Items.id)).limit(10).all()
+    category_list = []
+    '''
+    make a list of dictionary to store the categories
+    names and to be able to display the category
+    name with each item
+    '''
+    for c in categories:
+        category_list.append(dict(id=c.id, name=c.name))
+    if 'username' not in login_session:
+        return redirect(url_for('catalog'))
+    else:
+        return render_template('catalog.html', categories=categories,
+                               items=items, category_list=category_list)
+
+
 
 
 
