@@ -237,6 +237,27 @@ def editItem(title):
                                        categories=categories)
 
 
+@app.route('/catalog/<title>/delete', methods=['GET', 'POST'])
+def deleteItem(title):
+    if 'username' not in login_session:
+        return 'Unauthorized Access!'
+    else:
+        getuser = session.query(User).filter_by(
+                  username=login_session['username']).first()
+        item_to_delete = session.query(Items).filter_by(user_id=getuser.id,
+                                                        title=title).first()
+        if item_to_delete is None:
+            flash('Protected, Item cannot be deleted.')
+            return redirect(url_for('catalog'))
+        else:
+            if request.method == 'POST':
+                session.delete(item_to_delete)
+                session.commit()
+                flash('Item deleted!')
+                return redirect(url_for('pcatalog'))
+            else:
+                return render_template('deleteItem.html', item=item_to_delete)
+
 
 if __name__ == '__main__':
     app.debug = True
