@@ -196,6 +196,15 @@ def getItemJSON(category_id, title):
     item = session.query(Items).filter_by(title=title).one()
     return jsonify(item.serialize)
 
+
+@app.route('/catalog/<int:category_id>/<title>')
+def getItem(category_id, title):
+    item = session.query(Items).filter_by(title=title).one()
+    if 'username' not in login_session:
+        return render_template('public_item_description.html', item=item)
+    return render_template('item_description.html', item=item)
+
+
 if __name__ == '__main__':
     app.debug = True
     app.run(host='0.0.0.0', port=5000)
