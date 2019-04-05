@@ -102,7 +102,16 @@ def logout():
                                  400))
         response.headers['Content-Type'] = 'application/json'
         return response
-        
+
+
+@app.route('/catalog.json')
+def catalogJSON():
+    categories = DBSession().query(Categories).options(
+                 joinedload(Categories.items)).all()
+    return jsonify(Catalog=[dict(c.serialize,
+                   items=[i.serialize for i in c.items])
+                   for c in categories])
+
 
 @app.route('/catalog', methods=['GET', 'POST'])
 def catalog():
