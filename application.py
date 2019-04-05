@@ -142,6 +142,20 @@ def catalog():
                            STATE=state, link=url)
 
 
+@app.route('/private_catalog', methods=['GET', 'POST'])
+def pcatalog():
+    # Check if the user exist in the database
+    getuser = session.query(User).filter_by(
+              email=login_session['email']).first()
+    if getuser is None:
+        # Add new user to the database
+        newuser = User(username=login_session['username'],
+                       email=login_session['email'])
+        session.add(newuser)
+        session.commit()
+        flash("you are now logged in as %s, for the first time."
+              % login_session['username'])
+
 
 
 if __name__ == '__main__':
