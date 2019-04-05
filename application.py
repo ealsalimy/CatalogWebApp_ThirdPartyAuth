@@ -61,6 +61,22 @@ def gconnect():
         login_session['picture'] = usrdata['picture']
         login_session['email'] = usrdata['email']
         print usrdata
+        # Show user's name and picture then redirect to the main page
+        # that requires authentication
+        output = ''
+        output += '<h1>Welcome, '
+        output += login_session['username']
+        output += '!</h1>'
+        output += '<img src="'
+        output += login_session['picture']
+        output += ' " style = "width: 200px; height: 200px;border-radius: 150px;'
+        output += '-webkit-border-radius: 150px;-moz-border-radius: 150px;">'
+        output += '<p>redirecting to the main page....</p>'
+        output += '<script> window.setTimeout(function(){'
+        output += 'window.location.href = "http://localhost:5000/private_catalog";'
+        output += '}, 4000); </script>'
+        flash("you are now logged in as %s" % login_session['username'])
+        return output
 
 
 @app.route('/catalog', methods=['GET', 'POST'])
