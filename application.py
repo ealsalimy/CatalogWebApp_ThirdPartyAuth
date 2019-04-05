@@ -79,6 +79,10 @@ def gconnect():
         return output
 
 
+@app.route('/catalog/logout')
+def logout():
+
+
 @app.route('/catalog', methods=['GET', 'POST'])
 def catalog():
     categories = session.query(Categories).all()
