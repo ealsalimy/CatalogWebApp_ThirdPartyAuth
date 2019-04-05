@@ -12,6 +12,13 @@ import httplib2
 import string
 import os
 
+# Connect to Database and create database session
+engine = create_engine('sqlite:///ItemCatalog.db',
+                       connect_args={'check_same_thread': False})
+Base.metadata.bind = engine
+
+DBSession = sessionmaker(bind=engine)
+session = DBSession()
 
 
 
