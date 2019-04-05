@@ -23,6 +23,14 @@ session = DBSession()
 app.secret_key = os.urandom(32)
 
 
+@app.route('/catalog', methods=['GET', 'POST'])
+def catalog():
+    # Create anti-forgery state token
+    state = ''.join(random.choice(string.ascii_uppercase + string.digits)
+                    for x in xrange(32))
+    login_session['state'] = state
+
+
 
 
 if __name__ == '__main__':
