@@ -81,7 +81,13 @@ def gconnect():
 
 @app.route('/catalog/logout')
 def logout():
-
+    # Check if a user is connected then disconnect
+    access_token = login_session.get('access_token')
+    if access_token is None:
+        response = make_response(
+            json.dumps('Current user not connected.'), 401)
+        response.headers['Content-Type'] = 'application/json'
+        return response
 
 @app.route('/catalog', methods=['GET', 'POST'])
 def catalog():
