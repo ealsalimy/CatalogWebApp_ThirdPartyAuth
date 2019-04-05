@@ -205,6 +205,39 @@ def getItem(category_id, title):
     return render_template('item_description.html', item=item)
 
 
+@app.route('/catalog/<title>/edit', methods=['GET', 'POST'])
+def editItem(title):
+    if 'username' not in login_session:
+        return 'Unauthorized Access!'
+    else:
+        getuser = session.query(User).filter_by(
+                  username=login_session['username']).first()
+        # Check if the user.id == user_id in Items tables to nauthorize change
+        item_to_edit = session.query(Items).filter_by(user_id=getuser.id,
+                                                      title=title).first()
+        if item_to_edit is None:
+            flash('Protected, Item cannot be edited.')
+            return redirect(url_for('pcatalog'))
+        else:
+            categories = session.query(Categories).all()
+            # Get the information posted in the form
+            if request.method == 'POST':
+                if request.form.get('title', False):
+                    item_to_edit.title = request.form['title']
+                if request.form.get('description', False):
+                    item_to_edit.description = request.form['description']
+                if request.form.get('id', False):
+                    item_to_edit.cat_id = request.form['id']
+                session.add(item_to_edit)
+                session.commit()
+                flash('Item Edited')
+                return redirect(url_for('pcatalog'))
+            else:
+                return render_template('edit_item.html', item=item_to_edit,
+                                       categories=categories)
+
+
+
 if __name__ == '__main__':
     app.debug = True
     app.run(host='0.0.0.0', port=5000)
