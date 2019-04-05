@@ -40,6 +40,16 @@ def gconnect():
         URL += 'client_secret=0ikXfjJZaCyRbXGumch-gPR9&'
         URL += 'redirect_uri=http://localhost:5000/google_connect&'
         URL += 'grant_type=authorization_code'
+        # Get the response containing access_token
+        r = requests.post(url=URL)
+        if r.text:
+            print '--------------------------------'
+            print r.text
+            data = json.loads(r.text)
+            print '--------------------------------'
+            print data
+        else:
+            return 'no result'
 
 
 @app.route('/catalog', methods=['GET', 'POST'])
