@@ -191,6 +191,11 @@ def getItemsOfCategory(category_id):
                            name=name)
 
 
+@app.route('/catalog/<int:category_id>/<title>.json')
+def getItemJSON(category_id, title):
+    item = session.query(Items).filter_by(title=title).one()
+    return jsonify(item.serialize)
+
 if __name__ == '__main__':
     app.debug = True
     app.run(host='0.0.0.0', port=5000)
