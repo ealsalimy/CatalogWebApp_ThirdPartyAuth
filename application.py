@@ -259,6 +259,20 @@ def deleteItem(title):
                 return render_template('deleteItem.html', item=item_to_delete)
 
 
+@app.route('/catalog/my_items')
+def myitems():
+    if 'username' not in login_session:
+        return 'Unauthorized Access!'
+    else:
+        getuser = session.query(User).filter_by(
+                  username=login_session['username']).first()
+        items = session.query(Items).filter_by(user_id=getuser.id).all()
+        count = 0
+        for item in items:
+            count += 1
+        return render_template('myitems.html', items=items,
+                               username=login_session['username'], count=count)
+
 if __name__ == '__main__':
     app.debug = True
     app.run(host='0.0.0.0', port=5000)
