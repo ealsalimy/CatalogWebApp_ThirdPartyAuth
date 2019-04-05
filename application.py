@@ -273,6 +273,30 @@ def myitems():
         return render_template('myitems.html', items=items,
                                username=login_session['username'], count=count)
 
+
+@app.route('/catalog/new_item', methods=['GET', 'POST'])
+def newItem():
+    if 'username' not in login_session:
+        return 'Unauthorized Access!'
+    else:
+        categories = session.query(Categories).all()
+        if request.method == 'POST':
+            getuser = session.query(User).filter_by(
+                      username=login_session['username']).first()
+            getuser_id = getuser.id
+            new_item = Items(user_id=getuser_id,
+                             title=request.form.get('title', False),
+                             description=request.form.get('description',
+                                                          False),
+                             cat_id=request.form.get('id', False))
+            session.add(new_item)
+            session.commit()
+            flash('New item created!')
+            return redirect(url_for('pcatalog'))
+        else:
+            return render_template('newItem.html', categories=categories)
+
+
 if __name__ == '__main__':
     app.debug = True
     app.run(host='0.0.0.0', port=5000)
