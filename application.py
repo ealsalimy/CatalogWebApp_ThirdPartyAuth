@@ -50,6 +50,17 @@ def gconnect():
             print data
         else:
             return 'no result'
+        access_token = data['access_token']
+        login_session['access_token'] = access_token
+        # Obtain user information from the ID token
+        userinfo_url = "https://www.googleapis.com/oauth2/v1/userinfo"
+        params = {'access_token': login_session['access_token'], 'alt': 'json'}
+        answer = requests.get(userinfo_url, params=params)
+        usrdata = answer.json()
+        login_session['username'] = usrdata['name']
+        login_session['picture'] = usrdata['picture']
+        login_session['email'] = usrdata['email']
+        print usrdata
 
 
 @app.route('/catalog', methods=['GET', 'POST'])
