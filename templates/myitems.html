@@ -10,5 +10,42 @@
 </head>
 
 <body>
+
+  <div id='container'>
+    <header>
+      <a href='{{url_for('catalog')}}'><h1> Catalog App</h1></a>
+      {%if error_msg%}
+      <strong>{{error_msg}}</strong>
+      {%endif%}
+      <div class="btn white darken-4 col s10 m4">
+      <a href='{{url_for('logout')}}'>
+        <div class="left">
+          <button type='button'>
+            <img width="20px" alt="Google &quot;G&quot; Logo" src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/512px-Google_%22G%22_Logo.svg.png"/>
+            Log out
+          </div>
+        </button>
+      </a>
+    </div>
+    </br>
+    {% with messages = get_flashed_messages() %} {% if messages %}
+    {% for message in messages %}
+    <strong style="color:black;">{{ message }}</strong>
+  {% endfor %}
+  {% endif %} {% endwith %}
+    </header>
+    <div id='main'>
+      <div id='cat_and_items'>
+        <div>
+        <h2>{{username}}'s Items ({{count}})</h2>
+        {%for item in items%}
+        <a href='{{url_for('getItem',category_id=item.cat_id,title=item.title)}}'><li>{{item.title}}</li></a>
+        </br>
+        {%endfor%}
+        </div>
+</div>
+</div>
+<footer>By Ebtihal</footer>
+</div>
 </body>
 </html>
