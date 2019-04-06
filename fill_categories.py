@@ -13,7 +13,7 @@ session = DBSession()
 
 #Run this only once, to avoid repetition
 #You can Add more Categories
-'''
+
 category1 = Categories( name='food')
 category2 = Categories( name='clothes')
 category3 = Categories( name='sports')
@@ -48,4 +48,3 @@ new_item = Items(title='Swimming',
                  cat_id=id_c)
 session.add(new_item)
 session.commit()
-'''
