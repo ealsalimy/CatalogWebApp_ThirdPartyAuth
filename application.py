@@ -35,9 +35,8 @@ def gconnect():
         # Exchange code for access token and ID token
         URL = 'https://www.googleapis.com/oauth2/v4/token?'
         URL += 'code=%s&' % code
-        URL += 'client_id=354270557828-caritkd8lfe68d1bsdevphcs6i1i30qd'
-        URL += '.apps.googleusercontent.com&'
-        URL += 'client_secret=0ikXfjJZaCyRbXGumch-gPR9&'
+        URL += 'client_id={your_client_id}&'
+        URL += 'client_secret={your_client_secret}&'
         URL += 'redirect_uri=http://localhost:5000/google_connect&'
         URL += 'grant_type=authorization_code'
         # Get the response containing access_token
@@ -131,8 +130,7 @@ def catalog():
     login_session['state'] = state
     # Build authentication link to google account
     url = 'https://accounts.google.com/o/oauth2/v2/auth?'
-    url += 'client_id=354270557828-caritkd8lfe68d1bsdevphcs6i1i30qd.'
-    url += 'apps.googleusercontent.com&'
+    url += 'client_id={your_client_id}&'
     url += 'response_type=code&'
     url += 'scope=openid%20email&'
     url += 'redirect_uri=http://localhost:5000/google_connect&'
