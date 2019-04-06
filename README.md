@@ -11,7 +11,7 @@ This is a web Application that provides a list of items within a variety of cate
 * First login, then you can create your own items and you can modify them or delete them.
 * You can add more categories and items in `fill_categories.py` file and uncomment it and add more categories if you like.
 * Go to 'localhost:5000/catalog.json' and 'localhost:5000/catalog/<int:category_id>/<title>.json' or add '.json to the end of the route for a specific item to access JSON endpoints.
-* Go to this [link](https://console.developers.google.com/) and create a project to use Google API for Google accounts to have your own client_id and client_secret to replace these in 'application.py' in line 
+* Go to this [link](https://console.developers.google.com/) and create a project to use Google API for Google accounts to have your own {client_id} and {client_secret} to replace these in 'application.py' in line 38, 39, 133. Make sure the {redirect_uri} in your project is the same as in these lines 40, 136.
 ## References
 * https://developers.google.com/identity/protocols/OpenIDConnect
 * I used some code from Udaciy lessons under Third party authentication section.
